@@ -29,7 +29,7 @@
 
   const moveForward = (idx: number) => {
     if (idx <= 0) return;
-    layers = [...layers.slice(0, idx - 1), layers[idx], layers[idx - 1], ...layers.slice(idx + 2)];
+    layers = [...layers.slice(0, idx - 1), layers[idx], layers[idx - 1], ...layers.slice(idx + 1)];
   };
 
   const moveBackward = (idx: number) => {
