@@ -23,6 +23,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@sveltejs/adapter-vercel": "^1.0.0-next.15",
     "carbon-components-svelte": "^0.32.1",
     "carbon-icons-svelte": "^10.28.0",
     "file-saver": "^2.0.5",
