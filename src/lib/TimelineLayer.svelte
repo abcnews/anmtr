@@ -24,7 +24,7 @@
   import View16 from 'carbon-icons-svelte/lib/View16';
 
   export let layer: Layer;
-  export let onDelete: (ev: MouseEvent) => void;
+  export let onDelete: (ev?: MouseEvent) => void;
   export let onAdd: (ev: MouseEvent) => void;
   export let onMoveForward: (ev: MouseEvent) => void | undefined;
   export let onMoveBackward: (ev: MouseEvent) => void | undefined;
@@ -75,6 +75,8 @@
   const handlePropertyCheck = (property: TweenableProperty) => {
     typeof layer.tweens.find(t => t.property === property) === 'undefined' ? addTween(property) : removeTween(property);
   };
+
+  let deleteConfirmationOpen: boolean = false;
 </script>
 
 <div class="bx--row layer">
@@ -251,7 +253,7 @@
         iconDescription="Delete"
         textContent="Delete layer"
         icon={TrashCan16}
-        on:click={onDelete}
+        on:click={() => (deleteConfirmationOpen = true)}
       />
       <input type="file" style="display: none" bind:this={fileinput} accept=".jpg, .jpeg, .png" bind:files />
     </div>
@@ -262,6 +264,18 @@
     {/if}
   </div>
 </div>
+
+<Modal
+  danger
+  bind:open={deleteConfirmationOpen}
+  modalHeading="Delete layer"
+  primaryButtonText="Delete"
+  secondaryButtonText="Cancel"
+  on:click:button--secondary={() => (deleteConfirmationOpen = false)}
+  on:submit={() => onDelete()}
+>
+  <p>This is a permanent action and cannot be undone.</p>
+</Modal>
 
 <style lang="scss">
   .layer {
