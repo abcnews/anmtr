@@ -5,7 +5,7 @@
   export let layers: Layer[];
 
   const onWheel = (ev: WheelEvent) => {
-    $progress = Math.max(Math.min(1, $progress + ev.deltaY / 1000), 0);
+    $progress = Math.max(Math.min(1, $progress + ev.deltaY / $options.stageScrollDistance), 0);
   };
 </script>
 
@@ -14,7 +14,7 @@
     style={`transform: translate(calc(-${$options.width / 2}px), calc(-${$options.height / 2}px - 100%))`}
     class="title"
   >
-    Stage
+    Stage @ {($progress * 100).toFixed(1)}%
   </h3>
   <div
     class="stage"

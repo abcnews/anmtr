@@ -4,10 +4,19 @@
   import Stage from '$lib/Stage.svelte';
   import Timeline from '$lib/Timeline.svelte';
   import Player from '$lib/Player.svelte';
-  import 'carbon-components-svelte/css/g10.css';
-  import { Header, HeaderNav, HeaderNavItem, HeaderNavMenu } from 'carbon-components-svelte';
+  import {
+    Header,
+    HeaderAction,
+    HeaderNav,
+    HeaderNavItem,
+    HeaderNavMenu,
+    HeaderUtilities,
+    NumberInput
+  } from 'carbon-components-svelte';
 
-  let isSideNavOpen = false;
+  import { options } from '$lib/storage';
+
+  let isOpen = false;
   let importFile: HTMLInputElement;
   let files: FileList;
 
@@ -28,7 +37,7 @@
   $: getFileData(files);
 </script>
 
-<Header company="Story Lab" platformName="Anmtr" bind:isSideNavOpen>
+<Header company="Story Lab" platformName="Anmtr">
   <HeaderNav>
     <HeaderNavMenu text="File">
       <HeaderNavItem
@@ -40,6 +49,13 @@
       <HeaderNavItem on:click={() => importFile.click()} href="/" text="Import" />
     </HeaderNavMenu>
   </HeaderNav>
+  <HeaderUtilities>
+    <HeaderAction bind:isOpen>
+      <div class="form-field">
+        <NumberInput label="Stage scroll distance (px)" bind:value={$options.stageScrollDistance} />
+      </div>
+    </HeaderAction>
+  </HeaderUtilities>
   <input type="file" bind:this={importFile} style="display: none;" accept=".json, .anmtr" bind:files />
 </Header>
 
@@ -75,6 +91,11 @@
   .timeline {
     overflow: auto;
     box-shadow: 0 0 10px 0px rgba(0, 0, 0, 0.2);
+  }
+
+  .form-field {
+    padding: 1rem;
+    --cds-text-02: #fff;
   }
 
   .player {
