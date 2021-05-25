@@ -2,7 +2,7 @@
   import { Slider, Button, FormGroup, Popover } from 'carbon-components-svelte';
   import { progress } from '$lib/storage';
   import { TweenableProperty } from '../types';
-  import { tweenablePropertyLabel } from '$lib/utils';
+  import { tweenablePropertyLabel, getKeyframes, interpolate } from '$lib/utils';
   import type { Tween } from '../types';
   import { nanoid } from 'nanoid/non-secure';
   import TimelineKeyframe from '$lib/TimelineKeyframe.svelte';
@@ -15,10 +15,8 @@
   const createKeyframe = (ev: MouseEvent) => {
     ev.preventDefault();
     ev.stopPropagation();
-
-    const { left } = (<HTMLElement>ev.target).getBoundingClientRect();
-
-    tween.keyframes = [...tween.keyframes, { id: nanoid(), time, value: 0 }].sort((a, b) => a.time - b.time);
+    const value = interpolate(time, getKeyframes(tween, time));
+    tween.keyframes = [...tween.keyframes, { id: nanoid(), time, value }].sort((a, b) => a.time - b.time);
   };
 
   const deleteKeyframe = (idx: number) => {
