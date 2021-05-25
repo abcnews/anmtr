@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Slider, Button, FormGroup } from 'carbon-components-svelte';
+  import { Slider, Button, FormGroup, Popover } from 'carbon-components-svelte';
   import { progress } from '$lib/storage';
   import { TweenableProperty } from '../types';
   import { tweenablePropertyLabel } from '$lib/utils';
@@ -9,26 +9,38 @@
   export let tween: Tween;
 
   let hovered: boolean = false;
+  let time: number = 0;
+  let width: number;
 
   const createKeyframe = (ev: MouseEvent) => {
     ev.preventDefault();
     ev.stopPropagation();
 
-    const { left, width } = (<HTMLElement>ev.target).getBoundingClientRect();
+    const { left } = (<HTMLElement>ev.target).getBoundingClientRect();
 
-    tween.keyframes = [...tween.keyframes, { id: nanoid(), time: (ev.clientX - left) / width, value: 0 }].sort(
-      (a, b) => a.time - b.time
-    );
+    tween.keyframes = [...tween.keyframes, { id: nanoid(), time, value: 0 }].sort((a, b) => a.time - b.time);
   };
 
   const deleteKeyframe = (idx: number) => {
     tween.keyframes = [...tween.keyframes.slice(0, idx), ...tween.keyframes.slice(idx + 1)];
   };
+
+  const updateTime = (ev: MouseEvent) => {
+    const { left } = (<HTMLElement>ev.target).getBoundingClientRect();
+    time = (ev.clientX - left) / width;
+    hovered = ev.target === ev.currentTarget;
+  };
 </script>
 
-<li on:mouseenter={() => (hovered = true)} on:mouseleave={e => (hovered = false)}>
+<li>
   <span class="label">{tweenablePropertyLabel(tween.property)}</span>
-  <div class="track" on:dblclick={createKeyframe} on:click={console.log}>
+  <div
+    class="track"
+    bind:clientWidth={width}
+    on:dblclick={createKeyframe}
+    on:mousemove={updateTime}
+    on:mouseleave={() => (hovered = false)}
+  >
     <div class="time" style={`left: ${$progress * 100}%;`} />
     {#each tween.keyframes as keyframe, idx (keyframe.id)}
       <TimelineKeyframe bind:keyframe>
@@ -54,6 +66,11 @@
         </div>
       </TimelineKeyframe>
     {/each}
+  </div>
+  <div class="hover-time" style={`left: ${time * 100}%`}>
+    <Popover caret align="bottom-right" relative open={hovered}
+      ><p style="padding: 0.6rem">@ {(time * 100).toFixed(1)}%</p></Popover
+    >
   </div>
 </li>
 
@@ -82,6 +99,14 @@
     background: #fff;
     position: absolute;
     outline: transparent 10px;
+  }
+
+  .hover-time {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    width: 9.2em;
+    transform: translateX(-50%);
   }
 
   .keyframe-detail {
