@@ -4,6 +4,7 @@ import type { Layer } from '../types';
 type LayoutState = {
   width: number;
   height: number;
+  stageScrollDistance: number;
 };
 
 const getLocalStorage = (id: string) => {
@@ -19,5 +20,5 @@ const getStore = <T>(id: string, init: T) => {
 };
 
 export const layers = getStore<Layer[]>('layers', []);
-export const options = getStore<LayoutState>('layout', { width: 400, height: 600 });
+export const options = getStore<LayoutState>('layout', { width: 400, height: 600, stageScrollDistance: 1000 });
 export const progress = writable(0);
