@@ -2,6 +2,7 @@
   import { progress } from './storage';
   import type { Layer, TKeyframe } from '../types';
   import { TweenableProperty } from '../types';
+  import { interpolate, getTweenKeyframes } from '$lib/utils';
 
   export let layer: Layer;
   export let stageWidth: number;
@@ -10,61 +11,21 @@
   let layerWidth: number;
   let layerHeight: number;
 
-  const getTweenKeyframes = (property: TweenableProperty, time: number): [TKeyframe, TKeyframe] => {
-    const tween = layer.tweens.find(d => d.property === property);
-
-    const defaultValue = property === TweenableProperty.O || property === TweenableProperty.S ? 1 : 0;
-
-    // If there is no tween of this type, return the default keyframes
-    if (typeof tween === 'undefined') {
-      return [
-        { id: 'tmp', time: 0, value: defaultValue },
-        { id: 'tmp', time: 1, value: defaultValue }
-      ];
-    }
-
-    const from = tween.keyframes
-      .filter(d => d.time <= time)
-      .reduce<TKeyframe | undefined>(
-        (max, d) => (typeof max === 'undefined' ? d : max.time > d.time ? max : d),
-        undefined
-      ) || { id: 'tmp', time: 0, value: defaultValue };
-
-    const to = tween.keyframes
-      .filter(d => d.time >= time)
-      .reduce<TKeyframe | undefined>(
-        (min, d) => (typeof min === 'undefined' ? d : min.time < d.time ? min : d),
-        undefined
-      ) || { id: 'tmp', time: 1, value: defaultValue };
-
-    return [from, to];
-  };
-
-  const interpolate = (time: number, [from, to]: [TKeyframe, TKeyframe]): number => {
-    if (to.time === from.time) {
-      return from.value;
-    }
-    const totalTime = to.time - from.time;
-    const totalValue = to.value - from.value;
-    const result = ((time - from.time) / totalTime) * totalValue + from.value;
-    return result;
-  };
-
   // x — default is zero
   let x: number;
-  $: x = interpolate($progress, getTweenKeyframes(TweenableProperty.X, $progress));
+  $: x = interpolate($progress, getTweenKeyframes(layer.tweens, TweenableProperty.X, $progress));
 
   // y - default is zero
   let y: number;
-  $: y = interpolate($progress, getTweenKeyframes(TweenableProperty.Y, $progress));
+  $: y = interpolate($progress, getTweenKeyframes(layer.tweens, TweenableProperty.Y, $progress));
 
   // o - default is one
   let o: number;
-  $: o = interpolate($progress, getTweenKeyframes(TweenableProperty.O, $progress));
+  $: o = interpolate($progress, getTweenKeyframes(layer.tweens, TweenableProperty.O, $progress));
 
   // s - default is one
   let s: number;
-  $: s = interpolate($progress, getTweenKeyframes(TweenableProperty.S, $progress));
+  $: s = interpolate($progress, getTweenKeyframes(layer.tweens, TweenableProperty.S, $progress));
 
   let transform: string;
   $: transform = `translate(${x * stageWidth - layerWidth * -x}px, ${
