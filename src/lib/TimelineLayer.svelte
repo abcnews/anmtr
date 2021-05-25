@@ -3,6 +3,7 @@
   import { nanoid } from 'nanoid/non-secure';
   import { tweenablePropertyLabel } from '$lib/utils';
   import { TweenableProperty } from '../types';
+  import { hiddenLayers } from '$lib/storage';
   import type { Layer } from '../types';
   import {
     Button,
@@ -22,6 +23,8 @@
   import RowCollapse16 from 'carbon-icons-svelte/lib/RowCollapse16';
   import RowExpand16 from 'carbon-icons-svelte/lib/RowExpand16';
   import View16 from 'carbon-icons-svelte/lib/View16';
+  import ViewOff16 from 'carbon-icons-svelte/lib/ViewOff16';
+  import Settings16 from 'carbon-icons-svelte/lib/Settings16';
 
   export let layer: Layer;
   export let onDelete: (ev?: MouseEvent) => void;
@@ -33,6 +36,9 @@
   let files: FileList;
   let addingTween: boolean = false;
   let showViewOptions: boolean = false;
+  let isHidden: boolean;
+
+  $: isHidden = $hiddenLayers.includes(layer.id);
 
   const getFileData = async (files: FileList) => {
     if (!files) return;
@@ -91,7 +97,7 @@
       tooltipPosition="right"
     />
   </div>
-  <div class="bx--col-lg-3 properties">
+  <div class="bx--col-lg-4 properties">
     <input type="text" bind:value={layer.name} class="bx--text-input bx--text-input--sm" />
 
     <div class="actions">
@@ -151,8 +157,17 @@
         kind="ghost"
         size="small"
         iconDescription="Layer display options"
-        icon={View16}
+        icon={Settings16}
         on:click={() => (showViewOptions = !showViewOptions)}
+      />
+      <Button
+        tooltipAlignment="start"
+        kind="ghost"
+        size="small"
+        iconDescription={`${isHidden ? 'Show' : 'Hide'} layer`}
+        icon={isHidden ? ViewOff16 : View16}
+        on:click={() =>
+          ($hiddenLayers = isHidden ? $hiddenLayers.filter(d => d !== layer.id) : [...$hiddenLayers, layer.id])}
       />
       <Modal bind:open={showViewOptions} modalHeading="View options" size="sm" passiveModal>
         <FormGroup>
@@ -258,7 +273,7 @@
       <input type="file" style="display: none" bind:this={fileinput} accept=".jpg, .jpeg, .png" bind:files />
     </div>
   </div>
-  <div class="bx--col-lg-13">
+  <div class="bx--col-lg-12">
     {#if layer?.tweens?.length}
       <TimelineTweens bind:tweens={layer.tweens} />
     {/if}

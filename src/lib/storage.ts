@@ -21,4 +21,5 @@ const getStore = <T>(id: string, init: T) => {
 
 export const layers = getStore<Layer[]>('layers', []);
 export const options = getStore<LayoutState>('layout', { width: 400, height: 600, stageScrollDistance: 1000 });
+export const hiddenLayers = getStore<string[]>('hiddenLayers', []);
 export const progress = writable(0);

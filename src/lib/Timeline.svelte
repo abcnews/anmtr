@@ -4,6 +4,9 @@
   import type { Layer } from '../types';
   import Add16 from 'carbon-icons-svelte/lib/Add16';
   import { Button } from 'carbon-components-svelte';
+  import { hiddenLayers } from './storage';
+  import View16 from 'carbon-icons-svelte/lib/View16';
+  import ViewOff16 from 'carbon-icons-svelte/lib/ViewOff16';
 
   export let layers: Layer[];
   const addLayer = (idx: number = 0) => {
@@ -40,8 +43,26 @@
 
 <div class="container">
   <div class="bx--row" style="margin: 1rem 0;">
-    <div class="bx--col">
+    <div class="bx--col-lg-13">
       <h5>Layers</h5>
+    </div>
+    <div class="bx--col-lg-3" style="text-align: right;">
+      <Button
+        tooltipAlignment="end"
+        kind="ghost"
+        size="small"
+        iconDescription="Hide all layers"
+        icon={ViewOff16}
+        on:click={() => ($hiddenLayers = layers.map(d => d.id))}
+      />
+      <Button
+        tooltipAlignment="end"
+        kind="ghost"
+        size="small"
+        iconDescription="Show all layers"
+        icon={View16}
+        on:click={() => ($hiddenLayers = [])}
+      />
     </div>
   </div>
   <div>

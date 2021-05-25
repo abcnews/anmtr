@@ -5,6 +5,8 @@
   import Timeline from '$lib/Timeline.svelte';
   import Player from '$lib/Player.svelte';
   import {
+    Button,
+    ButtonSet,
     Header,
     HeaderAction,
     HeaderNav,

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { progress } from './storage';
+  import { progress, hiddenLayers } from './storage';
   import type { Layer, TKeyframe } from '../types';
   import { TweenableProperty } from '../types';
   import { interpolate, getTweenKeyframes } from '$lib/utils';
@@ -56,7 +56,7 @@
   $: invisible = x <= -0.5 || x >= 0.5 || y <= -0.5 || y >= 0.5 || o === 0 || s === 0;
 </script>
 
-{#if !invisible}
+{#if !invisible && !$hiddenLayers.includes(layer.id)}
   <div class="layer" bind:clientWidth={layerWidth} bind:clientHeight={layerHeight}>
     {#if layer.src}
       <img {style} src={layer.src} alt={layer.name} />
