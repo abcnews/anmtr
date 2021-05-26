@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Slider, Button, FormGroup, Popover } from 'carbon-components-svelte';
+  import { Slider, Button, FormGroup, Popover, NumberInput } from 'carbon-components-svelte';
   import { progress } from '$lib/storage';
   import { TweenableProperty } from '../types';
   import { tweenablePropertyLabel, getKeyframes, interpolate } from '$lib/utils';
@@ -41,28 +41,11 @@
   >
     <div class="time" style={`left: ${$progress * 100}%;`} />
     {#each tween.keyframes as keyframe, idx (keyframe.id)}
-      <TimelineKeyframe bind:keyframe>
-        <div
-          on:mousedown={e => e.stopPropagation()}
-          on:touchstart={e => e.stopPropagation()}
-          on:dblclick={e => e.stopPropagation()}
-          class="keyframe-detail"
-          style={`transform: translate(${keyframe.time * -100}%)`}
-        >
-          <h3>{keyframe.value.toFixed(2)}@{(keyframe.time * 100).toFixed(1)}%</h3>
-          <FormGroup>
-            <Slider
-              type="range"
-              min={tween.property === TweenableProperty.X || tween.property === TweenableProperty.Y ? -0.5 : 0}
-              max={tween.property === TweenableProperty.X || tween.property === TweenableProperty.Y ? 0.5 : 1}
-              step={0.01}
-              bind:value={keyframe.value}
-              hideTextInput
-            />
-          </FormGroup>
-          <Button on:click={() => deleteKeyframe(idx)} kind="danger-ghost">Delete</Button>
-        </div>
-      </TimelineKeyframe>
+      <TimelineKeyframe
+        bind:keyframe
+        extent={tween.property === TweenableProperty.X || tween.property === TweenableProperty.Y ? [-0.5, 0.5] : [0, 1]}
+        onDelete={() => deleteKeyframe(idx)}
+      />
     {/each}
   </div>
   <div class="hover-time" style={`left: ${time * 100}%`}>
@@ -105,18 +88,6 @@
     top: 0;
     width: 9.2em;
     transform: translateX(-50%);
-  }
-
-  .keyframe-detail {
-    position: absolute;
-    top: calc(105% + 20px);
-    left: 50%;
-    transform: translate(-50%);
-    background: #fff;
-    padding: 10px;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.2);
-    z-index: 2;
   }
 
   li {

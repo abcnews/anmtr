@@ -2,10 +2,14 @@
   import type { TKeyframe } from 'src/types';
   import { handle } from '$lib/handle';
   import { clickOutside } from '$lib/outside';
+  import { Button, FormGroup, NumberInput } from 'carbon-components-svelte';
 
   let dragging: boolean = false;
   let active: boolean = false;
+
   export let keyframe: TKeyframe;
+  export let extent: [number, number];
+  export let onDelete: () => void;
 </script>
 
 <div
@@ -20,7 +24,19 @@
 >
   <div style="width: 100%; height: 100%;">
     {#if active}
-      <slot />
+      <div
+        on:mousedown={e => e.stopPropagation()}
+        on:touchstart={e => e.stopPropagation()}
+        on:dblclick={e => e.stopPropagation()}
+        class="keyframe-detail"
+        style={`transform: translate(${keyframe.time * -100}%); min-width: 16rem`}
+      >
+        <h3>{keyframe.value.toFixed(2)} @ {(keyframe.time * 100).toFixed(1)}%</h3>
+        <FormGroup>
+          <NumberInput bind:value={keyframe.value} min={extent[0]} max={extent[1]} step={0.01} />
+        </FormGroup>
+        <Button on:click={onDelete} kind="danger-ghost">Delete</Button>
+      </div>
     {/if}
   </div>
   <div
@@ -57,5 +73,16 @@
     &.active {
       background-color: #0353e9;
     }
+  }
+  .keyframe-detail {
+    position: absolute;
+    top: calc(105% + 20px);
+    left: 50%;
+    transform: translate(-50%);
+    background: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.2);
+    z-index: 2;
   }
 </style>
