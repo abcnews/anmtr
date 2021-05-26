@@ -16,7 +16,7 @@
   use:clickOutside
   on:click_outside={() => (active = false)}
   class="keyframe"
-  style={`left: calc(${keyframe.time * 100}% - 0.25rem)`}
+  style={`left: calc(${keyframe.time * 100}% - 0.5rem)`}
   use:handle
   on:dragstart={() => (dragging = true)}
   on:drag={({ detail: time }) => (keyframe = { ...keyframe, time: Math.round(time * 1000) / 1000 })}

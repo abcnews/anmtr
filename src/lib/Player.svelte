@@ -17,10 +17,10 @@
 </script>
 
 <div class="bx--row">
-  <div class="bx--col-lg-3">
+  <div class="bx--col-lg-4">
     <Button icon={playing ? Pause16 : Play16} on:click={() => (playing ? stop() : play())} />
   </div>
-  <div class="bx--col-lg-13">
+  <div class="bx--col-lg-12">
     <div class="track">
       <div
         use:handle
@@ -29,7 +29,7 @@
         on:dragend={() => (dragging = false)}
         class="time"
         class:active={dragging}
-        style={`left: calc(${$progress * 100}% - 0.25rem);`}
+        style={`left: calc(${$progress * 100}% - 0.5rem);`}
       />
     </div>
   </div>
@@ -41,7 +41,7 @@
     height: 0.5rem;
     background-color: #ccc;
     border-radius: 0.25rem;
-    margin: 1.25rem;
+    margin: 1.25rem 1.75rem 1.25rem 0.25rem;
   }
 
   .time {

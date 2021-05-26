@@ -39,7 +39,7 @@
     on:mousemove={updateTime}
     on:mouseleave={() => (hovered = false)}
   >
-    <div class="time" style={`left: ${$progress * 100}%;`} />
+    <div class="time" style={`left: calc(${$progress * 100}% - 1.5px);`} />
     {#each tween.keyframes as keyframe, idx (keyframe.id)}
       <TimelineKeyframe
         bind:keyframe
@@ -76,7 +76,7 @@
     height: 110%;
     width: 3px;
     top: -5%;
-    background: #fff;
+    background: rgba(255, 255, 255, 0.6);
     position: absolute;
     outline: transparent 10px;
     pointer-events: none;
