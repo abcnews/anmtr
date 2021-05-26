@@ -66,7 +66,6 @@
 
   .label {
     position: absolute;
-    /* text-transform: uppercase; */
     font-size: 0.625rem;
     line-height: 1;
     left: 1rem;
@@ -80,6 +79,7 @@
     background: #fff;
     position: absolute;
     outline: transparent 10px;
+    pointer-events: none;
   }
 
   .hover-time {
