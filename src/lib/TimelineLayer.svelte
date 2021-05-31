@@ -36,6 +36,7 @@
   let files: FileList;
   let addingTween: boolean = false;
   let showViewOptions: boolean = false;
+  let showLoadImageForm: boolean = false;
   let isHidden: boolean;
 
   $: isHidden = $hiddenLayers.includes(layer.id);
@@ -107,8 +108,20 @@
         size="small"
         iconDescription="Load image"
         icon={Image16}
-        on:click={() => fileinput.click()}
+        on:click={() => (showLoadImageForm = true)}
       />
+      <Modal bind:open={showLoadImageForm} modalHeading="Image source" size="sm" passiveModal>
+        <FormGroup>
+          <TextInput
+            labelText="URL"
+            bind:value={layer.src}
+            helperText="Enter the URL of an externally hosted image or upload an image below."
+          />
+        </FormGroup>
+        <FormGroup>
+          <Button on:click={() => fileinput.click()}>Upload image</Button>
+        </FormGroup>
+      </Modal>
       <Button
         tooltipAlignment="start"
         kind="ghost"
