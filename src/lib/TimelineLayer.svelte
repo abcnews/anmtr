@@ -45,15 +45,38 @@
     if (!files) return;
     const file = files[0];
     if (!file) return;
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = e => {
-      if (e && e.target) {
-        layer.src = e.target.result as string;
-      } else {
-        throw new Error('Error reading file');
-      }
-    };
+
+    const filename = encodeURIComponent(file.name);
+    const res = await fetch(`/api/1/image/upload?file=${filename}`);
+    const { url, fields } = await res.json();
+    const formData = new FormData();
+
+    Object.entries({ ...fields, file }).forEach(([key, value]) => {
+      formData.append(key, value as string);
+    });
+
+    const upload = await fetch(url, {
+      method: 'POST',
+      body: formData
+    });
+
+    if (upload.ok) {
+      layer.src = upload.url + filename;
+    } else {
+      console.error('Upload failed.');
+    }
+
+    console.log('upload :>> ', upload);
+
+    // let reader = new FileReader();
+    // reader.readAsDataURL(file);
+    // reader.onload = e => {
+    //   if (e && e.target) {
+    //     layer.src = e.target.result as string;
+    //   } else {
+    //     throw new Error('Error reading file');
+    //   }
+    // };
   };
 
   $: getFileData(files);
@@ -121,6 +144,7 @@
         <FormGroup>
           <Button on:click={() => fileinput.click()}>Upload image</Button>
         </FormGroup>
+        <input type="file" style="display: none" bind:this={fileinput} accept=".jpg, .jpeg, .png" bind:files />
       </Modal>
       <Button
         tooltipAlignment="start"
@@ -283,7 +307,6 @@
         icon={TrashCan16}
         on:click={() => (deleteConfirmationOpen = true)}
       />
-      <input type="file" style="display: none" bind:this={fileinput} accept=".jpg, .jpeg, .png" bind:files />
     </div>
   </div>
   <div class="bx--col-lg-12">
