@@ -11,6 +11,8 @@ export const tweenablePropertyLabel = (p: TweenableProperty) => {
       return 'opacity';
     case TweenableProperty.S:
       return 'scale';
+    case TweenableProperty.B:
+      return 'blur';
   }
 };
 

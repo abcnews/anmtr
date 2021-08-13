@@ -27,6 +27,10 @@
   let s: number;
   $: s = interpolate($progress, getTweenKeyframes(layer.tweens, TweenableProperty.S, $progress));
 
+  // b - default is zero
+  let b: number;
+  $: b = interpolate($progress, getTweenKeyframes(layer.tweens, TweenableProperty.B, $progress));
+
   let transform: string;
   $: transform = `translate(${x * stageWidth - layerWidth * -x}px, ${
     y * stageHeight - layerHeight * -y
@@ -46,11 +50,14 @@
       }px);`
     : '';
 
+  let filterStyle: string;
+  $: filterStyle = `filter: blur(${b}px);`;
+
   let objectFitStyle: string;
   $: objectFitStyle = layer.constrainHeight && layer.constrainWidth ? `object-fit: ${layer.objectFit};` : '';
 
   let style: string;
-  $: style = `transform: ${transform}; opacity: ${o}; ${widthStyle}${heightStyle}${objectFitStyle}`;
+  $: style = `transform: ${transform}; opacity: ${o}; ${widthStyle}${heightStyle}${objectFitStyle}${filterStyle}`;
 
   let invisible: boolean;
   $: invisible = x <= -0.5 || x >= 0.5 || y <= -0.5 || y >= 0.5 || o === 0 || s === 0;
