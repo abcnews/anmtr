@@ -3,7 +3,10 @@ export enum TweenableProperty {
   Y = 'y',
   O = 'o',
   S = 's',
-  B = 'b'
+  B = 'b',
+  RX = 'rx',
+  RY = 'ry',
+  RZ = 'rz',
 }
 
 export type TAnimation = {

@@ -2,7 +2,13 @@
   import { Slider, Button, FormGroup, Popover, NumberInput } from 'carbon-components-svelte';
   import { progress } from '$lib/storage';
   import { TweenableProperty } from '../types';
-  import { tweenablePropertyLabel, getKeyframes, interpolate } from '$lib/utils';
+  import {
+    tweenablePropertyLabel,
+    tweenablePropertyExtent,
+    getKeyframes,
+    interpolate,
+    tweenablePropertyIncrement
+  } from '$lib/utils';
   import type { Tween } from '../types';
   import { nanoid } from 'nanoid/non-secure';
   import TimelineKeyframe from '$lib/TimelineKeyframe.svelte';
@@ -43,7 +49,8 @@
     {#each tween.keyframes as keyframe, idx (keyframe.id)}
       <TimelineKeyframe
         bind:keyframe
-        extent={tween.property === TweenableProperty.X || tween.property === TweenableProperty.Y ? [-0.5, 0.5] : [0, 1]}
+        extent={tweenablePropertyExtent(tween.property)}
+        increment={tweenablePropertyIncrement(tween.property)}
         onDelete={() => deleteKeyframe(idx)}
       />
     {/each}
