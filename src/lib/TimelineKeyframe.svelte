@@ -9,6 +9,7 @@
 
   export let keyframe: TKeyframe;
   export let extent: [number, number];
+  export let increment: number = 0.01;
   export let onDelete: () => void;
 </script>
 
@@ -33,7 +34,7 @@
       >
         <h3>{keyframe.value.toFixed(2)} @ {(keyframe.time * 100).toFixed(1)}%</h3>
         <FormGroup>
-          <NumberInput bind:value={keyframe.value} min={extent[0]} max={extent[1]} step={0.01} />
+          <NumberInput bind:value={keyframe.value} min={extent[0]} max={extent[1]} step={increment} />
         </FormGroup>
         <Button on:click={onDelete} kind="danger-ghost">Delete</Button>
       </div>
