@@ -14,7 +14,8 @@
     Popover,
     Select,
     SelectItem,
-    TextInput
+    TextInput,
+    MultiSelect
   } from 'carbon-components-svelte';
   import TrashCan16 from 'carbon-icons-svelte/lib/TrashCan16';
   import Add16 from 'carbon-icons-svelte/lib/Add16';
@@ -38,6 +39,7 @@
   let showViewOptions: boolean = false;
   let showLoadImageForm: boolean = false;
   let isHidden: boolean;
+  let selectedTweens: string[];
 
   $: isHidden = $hiddenLayers.includes(layer.id);
 
@@ -79,9 +81,14 @@
     layer.tweens = layer.tweens.filter(d => d.property !== property);
   };
 
+  const tweenExists = (property: TweenableProperty) =>
+    typeof layer.tweens.find(t => t.property === property) !== 'undefined';
+
   const handlePropertyCheck = (property: TweenableProperty) => {
     typeof layer.tweens.find(t => t.property === property) === 'undefined' ? addTween(property) : removeTween(property);
   };
+
+  $: selectedTweens = Object.values(TweenableProperty).filter(prop => tweenExists(prop));
 
   let deleteConfirmationOpen: boolean = false;
 </script>
@@ -99,8 +106,7 @@
     />
   </div>
   <div class="bx--col-lg-4 properties">
-    <input type="text" bind:value={layer.name} class="bx--text-input bx--text-input--sm" />
-
+    <TextInput size="sm" bind:value={layer.name} />
     <div class="actions">
       <Button
         tooltipAlignment="start"
@@ -133,6 +139,8 @@
       <Popover
         closeOnOutsideClick
         open={addingTween}
+        relative
+        align="right-top"
         on:click:outside={() => {
           addingTween = false;
         }}
@@ -279,7 +287,6 @@
         kind="danger-ghost"
         size="small"
         iconDescription="Delete"
-        textContent="Delete layer"
         icon={TrashCan16}
         on:click={() => (deleteConfirmationOpen = true)}
       />
@@ -296,7 +303,7 @@
 <Modal
   danger
   bind:open={deleteConfirmationOpen}
-  modalHeading="Delete layer"
+  modalHeading="Delete"
   primaryButtonText="Delete"
   secondaryButtonText="Cancel"
   on:click:button--secondary={() => (deleteConfirmationOpen = false)}
@@ -306,6 +313,9 @@
 </Modal>
 
 <style lang="scss">
+  :global(.bx--btn--danger-ghost.bx--btn--danger-ghost .bx--btn__icon) {
+    margin-left: 0;
+  }
   .layer {
     position: relative;
     margin: 1rem 0;
