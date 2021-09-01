@@ -1,7 +1,6 @@
 <script lang="ts">
-  import { Slider, Button, FormGroup, Popover, NumberInput } from 'carbon-components-svelte';
+  import { Popover } from 'carbon-components-svelte';
   import { progress } from '$lib/storage';
-  import { TweenableProperty } from '../types';
   import {
     tweenablePropertyLabel,
     tweenablePropertyExtent,

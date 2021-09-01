@@ -1,4 +1,5 @@
 node_modules
+package
 .svelte-kit
 .vercel_build_output
 .envrc
