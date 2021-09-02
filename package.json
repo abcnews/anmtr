@@ -9,7 +9,7 @@
     "format": "prettier --write .",
     "package": "svelte-kit package",
     "version": "svelte-kit package",
-    "release": "svelte-kit package && np --contents=package --preview --any-branch"
+    "release": "svelte-kit package && np --contents=package --preview --any-branch --no-tests"
   },
   "devDependencies": {
     "@sveltejs/adapter-vercel": "^1.0.0-next.15",
