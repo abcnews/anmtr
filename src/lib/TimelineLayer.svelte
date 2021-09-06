@@ -14,8 +14,7 @@
     Popover,
     Select,
     SelectItem,
-    TextInput,
-    MultiSelect
+    TextInput
   } from 'carbon-components-svelte';
   import TrashCan16 from 'carbon-icons-svelte/lib/TrashCan16';
   import Add16 from 'carbon-icons-svelte/lib/Add16';
@@ -290,7 +289,7 @@
         icon={TrashCan16}
         on:click={() => (deleteConfirmationOpen = true)}
       />
-      <input type="file" style="display: none" bind:this={fileinput} accept=".jpg, .jpeg, .png" bind:files />
+      <input type="file" style="display: none" bind:this={fileinput} accept=".jpg, .jpeg, .png, .svg" bind:files />
     </div>
   </div>
   <div class="bx--col-lg-12">

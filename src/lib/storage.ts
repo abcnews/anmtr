@@ -14,7 +14,7 @@ const getLocalStorage = (id: string) => {
 
 const getStore = <T>(id: string, init: T) => {
   const store = writable<T>(getLocalStorage(id) || init);
-  localStorage && store.subscribe(value => (localStorage[`tweener:${id}`] = JSON.stringify(value)));
+  window && localStorage && store.subscribe(value => (localStorage[`tweener:${id}`] = JSON.stringify(value)));
   return store;
 };
 
