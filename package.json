@@ -8,7 +8,7 @@
     "lint": "prettier --check .",
     "format": "prettier --write .",
     "package": "svelte-kit package",
-    "prepublishOnly": "svelte-kit package",
+    "version": "svelte-kit package",
     "release": "np --contents=./package --any-branch --no-tests"
   },
   "devDependencies": {
