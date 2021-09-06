@@ -11,10 +11,11 @@
     "lint": "prettier --check .",
     "format": "prettier --write .",
     "package": "svelte-kit package",
-    "version": "svelte-kit package",
+    "version": "svelte-kit package && node ./scripts/fix-imports.js",
     "release": "np --contents=./package --any-branch --no-tests"
   },
   "devDependencies": {
+    "@digitak/grubber": "^1.0.2",
     "@sveltejs/adapter-vercel": "^1.0.0-next.15",
     "@sveltejs/kit": "^1.0.0-next.91",
     "@types/file-saver": "^2.0.2",

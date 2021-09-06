@@ -13,6 +13,12 @@ const config = {
     // hydrate the <div id="svelte"> element in src/app.html
     target: '#svelte',
 
+    package: {
+      exports: {
+        include: ['utils.ts', 'Layer.svelte']
+      }
+    },
+
     vite: {
       optimizeDeps: {
         include: ['clipboard-copy']

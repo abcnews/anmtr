@@ -1,5 +1,4 @@
 import { writable } from 'svelte/store';
-import { browser } from '$app/env';
 import type { Layer } from './types';
 type LayoutState = {
   width: number;
@@ -15,7 +14,7 @@ const getLocalStorage = (id: string) => {
 
 const getStore = <T>(id: string, init: T) => {
   const store = writable<T>(getLocalStorage(id) || init);
-  browser && store.subscribe(value => (localStorage[`tweener:${id}`] = JSON.stringify(value)));
+  localStorage && store.subscribe(value => (localStorage[`tweener:${id}`] = JSON.stringify(value)));
   return store;
 };
 
