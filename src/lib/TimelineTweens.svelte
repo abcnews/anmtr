@@ -1,6 +1,6 @@
 <script lang="ts">
   import TimelineTween from './TimelineTween.svelte';
-  import type { Tween } from '../types';
+  import type { Tween } from './types';
   export let tweens: Tween[];
 
   $: tweens = tweens.filter(d => d.keyframes.length > 0);

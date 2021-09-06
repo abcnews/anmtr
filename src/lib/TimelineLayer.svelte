@@ -1,10 +1,10 @@
 <script lang="ts">
   import TimelineTweens from './TimelineTweens.svelte';
   import { nanoid } from 'nanoid/non-secure';
-  import { tweenablePropertyLabel } from '$lib/utils';
-  import { TweenableProperty } from '../types';
-  import { hiddenLayers } from '$lib/storage';
-  import type { Layer } from '../types';
+  import { tweenablePropertyLabel } from './utils';
+  import { TweenableProperty } from './types';
+  import { hiddenLayers } from './storage';
+  import type { Layer } from './types';
   import {
     Button,
     Checkbox,

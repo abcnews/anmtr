@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { progress, options } from '$lib/storage';
+  import { progress, options } from './storage';
   import StageLayer from './StageLayer.svelte';
-  import type { Layer } from '../types';
+  import type { Layer } from './types';
   export let layers: Layer[];
 
   const onWheel = (ev: WheelEvent) => {

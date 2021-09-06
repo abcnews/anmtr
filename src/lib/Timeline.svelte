@@ -1,7 +1,7 @@
 <script lang="ts">
   import TimelineLayer from './TimelineLayer.svelte';
   import { nanoid } from 'nanoid/non-secure';
-  import type { Layer } from '../types';
+  import type { Layer } from './types';
   import Add16 from 'carbon-icons-svelte/lib/Add16';
   import { Button } from 'carbon-components-svelte';
   import { hiddenLayers } from './storage';

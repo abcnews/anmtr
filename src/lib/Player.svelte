@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { progress } from '$lib/storage';
+  import { progress } from './storage';
   import { Button } from 'carbon-components-svelte';
-  import { handle } from '$lib/handle';
+  import { handle } from './handle';
   import Pause16 from 'carbon-icons-svelte/lib/Pause16';
   import Play16 from 'carbon-icons-svelte/lib/Play16';
   let playing: number | void;

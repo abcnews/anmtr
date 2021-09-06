@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 import { browser } from '$app/env';
-import type { Layer } from '../types';
+import type { Layer } from './types';
 type LayoutState = {
   width: number;
   height: number;

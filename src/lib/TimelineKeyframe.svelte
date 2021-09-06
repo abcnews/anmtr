@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { TKeyframe } from 'src/types';
-  import { handle } from '$lib/handle';
-  import { clickOutside } from '$lib/outside';
+  import type { TKeyframe } from './types';
+  import { handle } from './handle';
+  import { clickOutside } from './outside';
   import { Button, FormGroup, NumberInput } from 'carbon-components-svelte';
 
   let dragging: boolean = false;

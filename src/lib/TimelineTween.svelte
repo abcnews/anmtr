@@ -1,16 +1,16 @@
 <script lang="ts">
   import { Popover } from 'carbon-components-svelte';
-  import { progress } from '$lib/storage';
+  import { progress } from './storage';
   import {
     tweenablePropertyLabel,
     tweenablePropertyExtent,
     getKeyframes,
     interpolate,
     tweenablePropertyIncrement
-  } from '$lib/utils';
-  import type { Tween } from '../types';
+  } from './utils';
+  import type { Tween } from './types';
   import { nanoid } from 'nanoid/non-secure';
-  import TimelineKeyframe from '$lib/TimelineKeyframe.svelte';
+  import TimelineKeyframe from './TimelineKeyframe.svelte';
   export let tween: Tween;
 
   let hovered: boolean = false;

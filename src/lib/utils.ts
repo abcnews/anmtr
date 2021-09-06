@@ -1,5 +1,5 @@
-import { TweenableProperty } from '../types';
-import type { TKeyframe, Tween, Layer } from '../types';
+import { TweenableProperty } from './types';
+import type { TKeyframe, Tween, Layer } from './types';
 
 export const tweenablePropertyLabel = (p: TweenableProperty) => {
   switch (p) {
