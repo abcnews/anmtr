@@ -14,9 +14,7 @@ const config = {
     target: '#svelte',
 
     package: {
-      exports: {
-        include: ['utils.ts', 'Layer.svelte']
-      }
+      exports: path => ['utils.ts', 'Layer.svelte'].includes(path)
     },
 
     vite: {
